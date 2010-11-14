@@ -24,6 +24,9 @@
     <module>org.cishell.algorithm.convertergraph</module>
     <module>org.cishell.utilities</module>
     <module>org.cishell.utility.datastructure</module>
+    <module>org.cishell.utility.swt</module>
+    <module>org.cishell.reference.services</module>
+    <module>org.cishell.reference.service.database</module>
   </modules>
 
   <dependencies>
