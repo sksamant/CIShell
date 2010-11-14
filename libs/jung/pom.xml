@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <relativePath>../poms/wrappers/</relativePath>
+    <groupId>cishell.libs.build</groupId>
+    <artifactId>wrapper-bundle-settings</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <properties>
+    <bundle.symbolicName>jung</bundle.symbolicName>
+    <wrapped.groupId>jung</wrapped.groupId>
+    <wrapped.artifactId>jung</wrapped.artifactId>
+    <wrapped.version>1.7.6</wrapped.version>
+  </properties>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cishell.libs</groupId>
+  <artifactId>jung</artifactId>
+  <version>1.7.6-001-SNAPSHOT</version>
+
+  <name>${bundle.symbolicName} ${wrapped.version} [osgi]</name>
+
+  <packaging>bundle</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>${wrapped.groupId}</groupId>
+      <artifactId>${wrapped.artifactId}</artifactId>
+      <version>${wrapped.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>cishell.libs</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.1-001-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cishell.libs</groupId>
+      <artifactId>colt</artifactId>
+      <version>1.2.0-001-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

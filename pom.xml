@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+  <groupId>cishell</groupId>
+  <artifactId>build</artifactId>
+  <version>1.0.0</version>
+
+  <packaging>pom</packaging>
+
+  <properties>
+    <tycho-version>0.10.0</tycho-version>
+  </properties>
+
+  <modules>
+    <module>core</module>
+    <!--    <module>tycho.demo.itp02.bundle.tests</module> -->
+    <module>libs</module>
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>ganymede</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/ganymede</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <pomDependencies>consider</pomDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
