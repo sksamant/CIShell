@@ -50,6 +50,7 @@
       <artifactId>org.prefuse</artifactId>
       <version>beta-20071021-001-SNAPSHOT</version>
     </dependency>
+
   </dependencies>
 
   <repositories>
