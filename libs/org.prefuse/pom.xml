@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <relativePath>../poms/wrappers/</relativePath>
+    <groupId>cishell.libs.build</groupId>
+    <artifactId>wrapper-bundle-settings</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <properties>
+    <bundle.symbolicName>org.prefuse</bundle.symbolicName>
+    <wrapped.groupId>org.prefuse</wrapped.groupId>
+    <wrapped.artifactId>prefuse</wrapped.artifactId>
+    <wrapped.version>beta-20071021</wrapped.version>
+    <bundle.version>2007.10.21</bundle.version>
+  </properties>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cishell.libs</groupId>
+  <artifactId>org.prefuse</artifactId>
+  <version>beta-20071021-001-SNAPSHOT</version>
+
+  <name>${bundle.symbolicName} ${wrapped.version} [osgi]</name>
+
+  <packaging>bundle</packaging>
+
+  <repositories>
+    <repository>
+      <id>java.net</id>
+      <name>Java.net Repository</name>
+      <layout>default</layout>
+      <url>http://download.java.net/maven/2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>${wrapped.groupId}</groupId>
+      <artifactId>${wrapped.artifactId}</artifactId>
+      <version>${wrapped.version}</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+</project>

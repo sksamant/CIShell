@@ -45,7 +45,7 @@
     <dependency>
       <groupId>cishell.libs</groupId>
       <artifactId>org.prefuse</artifactId>
-      <version>beta-20060220-001-SNAPSHOT</version>
+      <version>beta-20071021-001-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
