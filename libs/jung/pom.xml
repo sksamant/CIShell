@@ -35,13 +35,11 @@
       <groupId>cishell.libs</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.1-001-SNAPSHOT</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>cishell.libs</groupId>
       <artifactId>colt</artifactId>
       <version>1.2.0-001-SNAPSHOT</version>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
 
