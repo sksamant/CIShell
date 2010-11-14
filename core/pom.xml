@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
+
   <modelVersion>4.0.0</modelVersion>
 
   <prerequisites>
     <maven>3.0</maven>
   </prerequisites>
-  
   <groupId>cishell</groupId>
   <artifactId>core-build</artifactId>
   <version>1.0.0</version>
+
   <packaging>pom</packaging>
 
   <properties>
@@ -18,7 +19,11 @@
   <modules>
     <module>org.cishell.framework</module>
     <module>org.cishell.reference</module>
-<!--    <module>tycho.demo.itp02.bundle.tests</module> -->
+    <module>org.cishell.service.autostart</module>
+    <module>org.cishell.service.database</module>
+    <module>org.cishell.algorithm.convertergraph</module>
+    <module>org.cishell.utilities</module>
+    <module>org.cishell.utility.datastructure</module>
   </modules>
 
   <dependencies>
@@ -27,14 +32,29 @@
       <artifactId>jung</artifactId>
       <version>1.7.6-001-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>cishell.libs</groupId>
+      <artifactId>com.google.collections</artifactId>
+      <version>1.0-001-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>cishell.libs</groupId>
+      <artifactId>org.prefuse</artifactId>
+      <version>beta-20060220-001-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <repositories>
-   <repository>
-     <id>ganymede</id>
-     <layout>p2</layout>
-     <url>http://download.eclipse.org/releases/ganymede</url>
-   </repository>
+    <repository>
+      <id>ganymede</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/ganymede</url>
+    </repository>
   </repositories>
 
   <build>
@@ -56,4 +76,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>

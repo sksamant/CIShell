@@ -51,6 +51,8 @@
     <module>commons-collections</module>
     <module>colt</module>
     <module>concurrent</module>
+    <module>com.google.collections</module>
+    <module>org.prefuse</module>
   </modules>
 
   <build>

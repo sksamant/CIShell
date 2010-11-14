@@ -13,6 +13,10 @@
 
   <name>libs - wrapper instructions</name>
 
+  <properties>
+    <bundle.version>${wrapped.version}</bundle.version>
+  </properties>
+
   <!--
    | don't apply project details to wrapped jars
   -->
@@ -37,7 +41,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
-            <Bundle-Version>${wrapped.version}</Bundle-Version>
+            <Bundle-Version>${bundle.version}</Bundle-Version>
             <!--
              | export wrapped contents: don't use Export-Package:* as this bundles everything on the classpath
             -->
