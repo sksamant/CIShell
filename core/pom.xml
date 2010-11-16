@@ -27,6 +27,7 @@
     <module>org.cishell.utility.swt</module>
     <module>org.cishell.reference.services</module>
     <module>org.cishell.reference.service.database</module>
+    <module>org.cishell.reference.prefs.admin</module>
   </modules>
 
   <dependencies>
