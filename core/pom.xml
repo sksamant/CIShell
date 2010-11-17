@@ -12,6 +12,11 @@
 
   <packaging>pom</packaging>
 
+  <scm>
+    <connection>scm:svn:http://cishell.svn.sourceforge.net/svnroot/cishell/branches/tycho/core</connection>
+    <developerConnection>scm:svn:https://cishell.svn.sourceforge.net/svnroot/cishell/branches/tycho/core</developerConnection>
+  </scm>
+
   <properties>
     <tycho-version>0.10.0</tycho-version>
   </properties>
@@ -77,6 +82,14 @@
         <configuration>
           <resolver>p2</resolver>
           <pomDependencies>consider</pomDependencies>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.4</version>
+        <configuration>
+          <connectionType>developerConnection</connectionType>
         </configuration>
       </plugin>
     </plugins>
