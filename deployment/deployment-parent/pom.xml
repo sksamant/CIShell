@@ -17,7 +17,7 @@
 
 	<modules>
 		<module>../org.cishell.feature</module>
-                <module>../../core</module>
+                <module>../../core/core-build</module>
 	</modules>
 
         <repositories>

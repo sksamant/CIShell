@@ -7,6 +7,7 @@
     <groupId>cishell</groupId>
     <artifactId>core-build</artifactId>
     <version>1.0.0</version>
+    <relativePath>../core-build/pom.xml</relativePath>
   </parent>
 
   <artifactId>org.cishell.reference.service.database</artifactId>
