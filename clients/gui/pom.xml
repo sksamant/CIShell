@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cishell</groupId>
+  <artifactId>gui</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <properties>
+    <tycho-version>0.10.0</tycho-version>
+  </properties>
+
+
+  <modules>
+    <module>org.cishell.reference.gui.brand.cishell</module>
+    <module>org.cishell.reference.gui.datamanager</module>
+    <module>org.cishell.reference.gui.guibuilder.swt</module>
+    <module>org.cishell.reference.gui.log</module>
+    <module>org.cishell.reference.gui.menumanager</module>
+    <module>org.cishell.reference.gui.persistence</module>
+    <module>org.cishell.reference.gui.prefs.swt</module>
+    <module>org.cishell.reference.gui.scheduler</module>
+    <module>org.cishell.reference.gui.workspace</module>
+    <module>../../core/core-build</module>
+  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>runtime</artifactId>
+      <version>3.3.100-v20070530</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse</groupId> 
+      <artifactId>ui</artifactId> 
+      <version>3.3.0-I20070614-0800</version> 
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>0.10.0</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <pomDependencies>consider</pomDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
