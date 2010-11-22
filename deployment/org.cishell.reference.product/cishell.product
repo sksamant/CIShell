@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="CIShell" uid="cishell.product.id" id="cishell.product" application="cishell.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
+<product name="CIShell" uid="cishell.product.id" id="cishell.product" application="org.cishell.reference.gui.workspace.CIShellApplication" version="1.0.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>

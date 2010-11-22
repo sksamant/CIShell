@@ -20,6 +20,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.6.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
       <groupId>cishell.libs</groupId>
       <artifactId>jung</artifactId>
       <version>1.7.6-001</version>
