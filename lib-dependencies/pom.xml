@@ -7,43 +7,18 @@
     <maven>3.0</maven>
   </prerequisites>
   <groupId>cishell</groupId>
-  <artifactId>core-build</artifactId>
+  <artifactId>lib-dependencies</artifactId>
   <version>1.0.0</version>
 
   <packaging>pom</packaging>
-  
-  <parent>
-    <groupId>cishell</groupId>
-    <artifactId>lib-dependencies</artifactId>
-    <version>1.0.0</version>
-    <relativePath>../../lib-dependencies/pom.xml</relativePath>
-  </parent>
 
-
-  <scm>
-    <connection>scm:svn:http://cishell.svn.sourceforge.net/svnroot/cishell/branches/tycho/core</connection>
-    <developerConnection>scm:svn:https://cishell.svn.sourceforge.net/svnroot/cishell/branches/tycho/core</developerConnection>
-  </scm>
 
   <properties>
     <tycho-version>0.10.0</tycho-version>
   </properties>
 
-  <modules>
-    <module>../org.cishell.framework</module>
-    <module>../org.cishell.reference</module>
-    <module>../org.cishell.service.autostart</module>
-    <module>../org.cishell.service.database</module>
-    <module>../org.cishell.algorithm.convertergraph</module>
-    <module>../org.cishell.utilities</module>
-    <module>../org.cishell.utility.datastructure</module>
-    <module>../org.cishell.utility.swt</module>
-    <module>../org.cishell.reference.services</module>
-    <module>../org.cishell.reference.service.database</module>
-    <module>../org.cishell.reference.prefs.admin</module>
-  </modules>
 
-<!--  <dependencies>
+  <dependencies>
     <dependency>
       <groupId>cishell.libs</groupId>
       <artifactId>jung</artifactId>
@@ -65,7 +40,7 @@
       <version>beta-20071021-001</version>
     </dependency>
 
-  </dependencies> -->
+  </dependencies>
 
 
   <repositories>
@@ -91,14 +66,6 @@
         <configuration>
           <resolver>p2</resolver>
           <pomDependencies>consider</pomDependencies>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <version>1.4</version>
-        <configuration>
-          <connectionType>developerConnection</connectionType>
         </configuration>
       </plugin>
     </plugins>

@@ -6,6 +6,7 @@
     <artifactId>gui</artifactId>
     <groupId>cishell</groupId>
     <version>1.0.0</version>
+    <relativePath>../gui-build/pom.xml</relativePath>
   </parent>
   <groupId>cishell</groupId>
   <artifactId>org.cishell.reference.gui.persistence</artifactId>

@@ -9,6 +9,14 @@
 	<packaging>pom</packaging>
 	<name>CIShell Deployment Parent</name>
 
+          <parent>
+    <groupId>cishell</groupId>
+    <artifactId>lib-dependencies</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../../lib-dependencies/pom.xml</relativePath>
+  </parent>
+
+
 	<properties>
 		<tycho-version>0.10.0</tycho-version>
 		<tycho-groupid>org.sonatype.tycho</tycho-groupid>
@@ -17,6 +25,9 @@
 
 	<modules>
 		<module>../org.cishell.feature</module>
+                <module>../org.cishell.reference.gui.feature</module>
+                <module>../org.cishell.reference.product</module>
+                <module>../../clients/gui/gui-build</module>
                 <module>../../core/core-build</module>
 	</modules>
 
@@ -24,7 +35,7 @@
     <repository>
       <id>ganymede</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/ganymede</url>
+      <url>http://download.eclipse.org/eclipse/updates/3.4</url>
     </repository>
   </repositories>
 
@@ -44,6 +55,14 @@
         <configuration>
           <resolver>p2</resolver>
           <pomDependencies>consider</pomDependencies>
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+          </environments>
+
         </configuration>
       </plugin>
 

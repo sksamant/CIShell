@@ -19,7 +19,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>cishell.libs</groupId>
   <artifactId>org.prefuse</artifactId>
-  <version>beta-20071021-001-SNAPSHOT</version>
+  <version>beta-20071021-001</version>
 
   <name>${bundle.symbolicName} ${wrapped.version} [osgi]</name>
 

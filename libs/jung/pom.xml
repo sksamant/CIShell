@@ -18,7 +18,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>cishell.libs</groupId>
   <artifactId>jung</artifactId>
-  <version>1.7.6-001-SNAPSHOT</version>
+  <version>1.7.6-001</version>
 
   <name>${bundle.symbolicName} ${wrapped.version} [osgi]</name>
 
@@ -34,12 +34,12 @@
     <dependency>
       <groupId>cishell.libs</groupId>
       <artifactId>commons-collections</artifactId>
-      <version>3.1-001-SNAPSHOT</version>
+      <version>3.1-001</version>
     </dependency>
     <dependency>
       <groupId>cishell.libs</groupId>
       <artifactId>colt</artifactId>
-      <version>1.2.0-001-SNAPSHOT</version>
+      <version>1.2.0-001</version>
     </dependency>
   </dependencies>
 
