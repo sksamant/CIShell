@@ -15,6 +15,10 @@
                 <relativePath>../deployment-parent/pom.xml</relativePath>
         </parent>
 
+        <properties>
+  	  <generatedBuildProperties>root.properties</generatedBuildProperties>
+        </properties>
+
 	<build>
 		<plugins>
 			<plugin>

@@ -11,6 +11,14 @@
   </properties>
 
 
+         <parent>
+    <groupId>cishell</groupId>
+    <artifactId>lib-dependencies</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../../../lib-dependencies/pom.xml</relativePath>
+  </parent>
+
+
   <modules>
     <module>../org.cishell.reference.gui.brand.cishell</module>
     <module>../org.cishell.reference.gui.datamanager</module>
@@ -23,59 +31,4 @@
     <module>../org.cishell.reference.gui.workspace</module>
   </modules>
 
-  <repositories>
-    <repository>
-      <id>ganymede</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/3.4</url>
-    </repository>
-  </repositories>
-  <dependencies>
-<!--    <dependency>
-      <groupId>org.eclipse.core</groupId>
-      <artifactId>runtime</artifactId>
-      <version>3.3.100-v20070530</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse</groupId> 
-      <artifactId>ui</artifactId> 
-      <version>3.3.0-I20070614-0800</version> 
-    </dependency> -->
-    <dependency>
-      <groupId>cishell</groupId>
-      <artifactId>org.cishell.reference</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>cishell</groupId>
-      <artifactId>org.cishell.framework</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.sonatype.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.tycho</groupId>
-        <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <resolver>p2</resolver>
-          <pomDependencies>consider</pomDependencies>
-          <environments>
-            <environment>
-              <os>linux</os>
-              <ws>gtk</ws>
-              <arch>x86</arch>
-            </environment>
-          </environments>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

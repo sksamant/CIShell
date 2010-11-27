@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="CIShell" uid="cishell.product.id" id="org.cishell.reference.application.product" application="org.cishell.reference.gui.workspace.CIShellApplication" version="1.0.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="">
+   </configIni>
+
+   <launcherArgs>
+   </launcherArgs>
+
+   <launcher name="cishell">
+   </launcher>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.cishell.feature" version="0.0.0"/>
+      <feature id="org.cishell.reference.gui.feature" version="0.0.0"/>
+      <feature id="org.cishell.reference.brand.feature" version="0.0.0"/>
+      <feature id="org.eclipse.rcp" version="0.0.0"/>
+      <feature id="org.eclipse.platform" version="0.0.0"/>
+      <feature id="org.eclipse.equinox.p2.user.ui" version="0.0.0"/>
+
+<!--      <feature id="org.eclipse.equinox" version="0.0.0"/> -->
+   </features>
+
+  <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <plugin id="org.cishell.service.autostart" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.log" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.metatype" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.cm" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
+
+      <!-- Disable update manager. It seems as if this could be achieved by the first line, but in 
+           fact the second line sets reconcile to false (see org.eclipse.equinox.p2.publisher.eclipse.ConfigCUsAction#publishBundleCUs) -->
+      <property name="org.eclipse.update.reconcile" value="false" />
+      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4"/>
+                                              
+   </configurations>
+   
+</product>

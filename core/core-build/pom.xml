@@ -20,10 +20,10 @@
   </parent>
 
 
-  <scm>
+<!--  <scm>
     <connection>scm:svn:http://cishell.svn.sourceforge.net/svnroot/cishell/branches/tycho/core</connection>
     <developerConnection>scm:svn:https://cishell.svn.sourceforge.net/svnroot/cishell/branches/tycho/core</developerConnection>
-  </scm>
+  </scm> -->
 
   <properties>
     <tycho-version>0.10.0</tycho-version>
@@ -67,14 +67,6 @@
 
   </dependencies> -->
 
-
-  <repositories>
-    <repository>
-      <id>ganymede</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/3.4</url>
-    </repository>
-  </repositories>
 
   <build>
     <plugins>

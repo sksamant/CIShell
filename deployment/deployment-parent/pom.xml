@@ -26,18 +26,11 @@
 	<modules>
 		<module>../org.cishell.feature</module>
                 <module>../org.cishell.reference.gui.feature</module>
-                <module>../org.cishell.reference.product</module>
+                <module>../org.cishell.reference.brand.feature</module>
+                <module>../org.cishell.reference.application</module>
                 <module>../../clients/gui/gui-build</module>
                 <module>../../core/core-build</module>
 	</modules>
-
-        <repositories>
-    <repository>
-      <id>ganymede</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/3.4</url>
-    </repository>
-  </repositories>
 
 
 	<build>
