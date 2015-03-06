@@ -57,7 +57,8 @@ import org.osgi.service.metatype.MetaTypeProvider;
 import org.osgi.service.metatype.MetaTypeService;
 import org.osgi.service.metatype.ObjectClassDefinition;
 
-public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressTrackable {
+public class AlgorithmWrapper implements Algorithm, AlgorithmProperty,
+		ProgressTrackable {
 	protected ServiceReference serviceReference;
 	protected BundleContext bundleContext;
 	protected CIShellContext ciShellContext;
@@ -68,13 +69,9 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 	protected Algorithm algorithm;
 	protected Dictionary<String, Object> parameters;
 
-	public AlgorithmWrapper(
-			ServiceReference serviceReference,
-			BundleContext bundleContext,
-			CIShellContext ciShellContext,
-			Data[] originalData,
-			Data[] data,
-			Converter[][] converters) {
+	public AlgorithmWrapper(ServiceReference serviceReference,
+			BundleContext bundleContext, CIShellContext ciShellContext,
+			Data[] originalData, Data[] data, Converter[][] converters) {
 		this.serviceReference = serviceReference;
 		this.bundleContext = bundleContext;
 		this.ciShellContext = ciShellContext;
@@ -83,19 +80,19 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 		this.converters = converters;
 		this.progressMonitor = null;
 	}
-	
+
 	public Dictionary<String, Object> getParameters() {
 		// Return a cloned Dictionary
 		return cloneDictionary(parameters);
 	}
-	
+
 	private <K, V> Dictionary<K, V> cloneDictionary(Dictionary<K, V> source) {
 		Dictionary<K, V> cloned = new Hashtable<K, V>();
-	    for (Enumeration<K> keys = source.keys(); keys.hasMoreElements();) {
-	        K key = keys.nextElement();
-	        cloned.put(key, source.get(key));
-	    }
-	    return cloned;
+		for (Enumeration<K> keys = source.keys(); keys.hasMoreElements();) {
+			K key = keys.nextElement();
+			cloned.put(key, source.get(key));
+		}
+		return cloned;
 	}
 
 	/**
@@ -103,16 +100,19 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 	 */
 	public Data[] execute() throws AlgorithmExecutionException {
 		try {
-			AlgorithmFactory factory = getAlgorithmFactory(bundleContext, this.serviceReference);
+			AlgorithmFactory factory = getAlgorithmFactory(bundleContext,
+					this.serviceReference);
 
 			if (factory == null) {
 				return null;
 			}
 
-			String pid = (String) this.serviceReference.getProperty(Constants.SERVICE_PID);
+			String pid = (String) this.serviceReference
+					.getProperty(Constants.SERVICE_PID);
 
 			// Convert input data to the correct format.
-			boolean conversionSuccessful = tryConvertingDataToRequiredFormat(data, converters);
+			boolean conversionSuccessful = tryConvertingDataToRequiredFormat(
+					data, converters);
 
 			if (!conversionSuccessful) {
 				return null;
@@ -131,16 +131,14 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 			MetaTypeProvider provider = null;
 
 			try {
-				provider = getPossiblyMutatedMetaTypeProvider(metatypePID, pid, factory);
+				provider = getPossiblyMutatedMetaTypeProvider(metatypePID, pid,
+						factory);
 			} catch (AlgorithmCreationFailedException e) {
-				String format =
-					"An error occurred when creating the algorithm \"%s\" with the data you " +
-					"provided.  (Reason: %s)";
-				String logMessage = String.format(
-					format,
-					this.serviceReference.getProperty(AlgorithmProperty.LABEL),
-					e.getMessage());
-					log(LogService.LOG_ERROR, logMessage, e);
+				String format = "An error occurred when creating the algorithm \"%s\" with the data you "
+						+ "provided.  (Reason: %s)";
+				String logMessage = String.format(format, this.serviceReference
+						.getProperty(AlgorithmProperty.LABEL), e.getMessage());
+				log(LogService.LOG_ERROR, logMessage, e);
 
 				return null;
 			} catch (Exception e) {
@@ -158,45 +156,54 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 
 			printParameters(metatypePID, provider, parameters);
 
-			// Create the algorithm.
-			algorithm = createAlgorithm(
-				factory,
-				data,
-				parameters,
-				new CIShellContextDelegate(this.serviceReference, this.ciShellContext));
+			ArrayList<Data> algoOutData = new ArrayList<Data>();
 
-			if (algorithm == null) {
-				return null;
+			for (int i = 0; i <= data.length; i++) {
+				Data[] algoData = data.length == 0 ? new Data[] {}
+						: new Data[] { data[i] };
+
+				algorithm = createAlgorithm(
+						factory, 
+						algoData, 
+						parameters,
+						new CIShellContextDelegate(this.serviceReference,
+								this.ciShellContext));
+
+				if (algorithm == null) return null;
+
+				trackAlgorithmIfPossible(algorithm);
+
+				// Execute the algorithm.
+				Data[] outData = tryExecutingAlgorithm(algorithm);
+
+				if (outData == null) return null;
+
+				// TODO: Refactor this into a method?
+				for (Data datum : outData) {
+					datum.getMetadata().put(DataProperty.SERVICE_REFERENCE,
+							this.serviceReference);
+				}
+
+				// Process and return the algorithm's output.
+				doParentage(outData);
+				outData = removeNullData(outData);
+				addDataToDataManager(outData);
+				
+				for (int j=0; j < outData.length; j++)
+					algoOutData.add(outData[j]);
+
+				if (i == data.length - 1)
+					break;
 			}
-
-			trackAlgorithmIfPossible(algorithm);
-
-			// Execute the algorithm.
-			Data[] outData = tryExecutingAlgorithm(algorithm);
-
-			if (outData == null) {
-				return null;
-			}
-
-			// TODO: Refactor this into a method?
-			for (Data datum : outData) {
-				datum.getMetadata().put(DataProperty.SERVICE_REFERENCE, this.serviceReference);
-			}
-
-			// Process and return the algorithm's output.
-			doParentage(outData);
-			outData = removeNullData(outData);
-			addDataToDataManager(outData);
-
-			return outData;
+			return algoOutData.toArray(new Data[algoOutData.size()]);
 		} catch (Exception e) {
 			GUIBuilderService builder = (GUIBuilderService) this.ciShellContext
 					.getService(GUIBuilderService.class.getName());
 
 			String errorMessage = "An error occurred while preparing to run "
-				+ "the algorithm \"" + this.serviceReference.getProperty(AlgorithmProperty.LABEL)
-				+ ".\"";
-						
+					+ "the algorithm \""
+					+ this.serviceReference
+							.getProperty(AlgorithmProperty.LABEL) + ".\"";
 
 			builder.showError("Error!", errorMessage, e);
 			log(LogService.LOG_ERROR, errorMessage, e);
@@ -205,10 +212,10 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 		return null;
 	}
 
-	protected AlgorithmFactory getAlgorithmFactory(
-			BundleContext bundleContext, ServiceReference serviceReference) {
-		AlgorithmFactory algorithmFactory = 
-			(AlgorithmFactory) bundleContext.getService(serviceReference);
+	protected AlgorithmFactory getAlgorithmFactory(BundleContext bundleContext,
+			ServiceReference serviceReference) {
+		AlgorithmFactory algorithmFactory = (AlgorithmFactory) bundleContext
+				.getService(serviceReference);
 
 		if (algorithmFactory == null) {
 			String errorMessage = "Could not create AlgorithmFactory for the algorithm "
@@ -605,7 +612,8 @@ public class AlgorithmWrapper implements Algorithm, AlgorithmProperty, ProgressT
 						&& originalData[0] != null) {
 
 					for (int i = 0; i < outData.length; i++) {
-						// If they don't have a parent set already then we set one
+						// If they don't have a parent set already then we set
+						// one
 						if (outData[i] != null
 								&& outData[i].getMetadata().get(
 										DataProperty.PARENT) == null) {
