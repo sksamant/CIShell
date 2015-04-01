@@ -67,6 +67,9 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -85,6 +88,7 @@ import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.log.LogService;
+import org.eclipse.swt.graphics.Image;
 
 public abstract class AbstractDataManagerView
 		extends ViewPart implements BundleListener, DataManagerListener {
@@ -111,11 +115,24 @@ public abstract class AbstractDataManagerView
 	private ViewWithListener viewWithListener;
 	private LogService logger;
 
+	private static Image saveImage;
+	private static Image viewImage;
+	private static Image editImage;
+	private static Image deleteImage;
+	private Button saveStateButton;
+	private Button viewStateButton;
+	private Button editStateButton;
+	private Button deleteStateButton;
+	
 	public AbstractDataManagerView(String brandPluginID) {
 		this.brandPluginID = brandPluginID;
 		this.dataToDataGUIItem = new HashMap<Data, DataGUIItem>();
 		this.manager = Activator.getDataManagerService();
 		this.logger = Activator.getLogService();
+		saveImage = DataGUIItem.getImage("save.png", brandPluginID);
+		viewImage = DataGUIItem.getImage("view.png", brandPluginID);
+		editImage = DataGUIItem.getImage("edit.png", brandPluginID);
+		deleteImage =DataGUIItem.getImage("delete.png", brandPluginID);
 		
 		if (this.manager == null) {			
 			if (this.logger != null) {
@@ -137,7 +154,76 @@ public abstract class AbstractDataManagerView
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPartControl(Composite parent) {
-		this.viewer = new TreeViewer(parent);
+        Composite control = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 1;
+        layout.horizontalSpacing = 5;
+        layout.verticalSpacing = 2;
+        control.setLayout(layout ); 
+        
+        
+        Composite control1 = new Composite(control, SWT.NONE);
+        GridLayout layout1 = new GridLayout();
+        layout1.numColumns = 8;
+        control1.setLayout(layout1 );
+        
+        GridData gridData = new GridData();
+        gridData.verticalSpan = 1;
+        
+        saveStateButton = new Button(control1, SWT.PUSH);
+        saveStateButton.setLayoutData(gridData);
+		
+        saveStateButton.setImage(saveImage);
+        saveStateButton.setEnabled(true);
+		saveStateButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				saveSelection();
+			}
+		});
+		
+		viewStateButton = new Button(control1, SWT.PUSH);
+		viewStateButton.setLayoutData(gridData);
+		
+		viewStateButton.setImage(viewImage);
+		viewStateButton.setEnabled(true);
+		viewStateButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				viewSelection();
+			}
+		});
+		
+		editStateButton = new Button(control1, SWT.PUSH);
+		editStateButton.setLayoutData(gridData);
+		
+		editStateButton.setImage(editImage);
+		editStateButton.setEnabled(true);
+		editStateButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				editSelection();
+			}
+		});
+		
+		deleteStateButton = new Button(control1, SWT.PUSH);
+		deleteStateButton.setLayoutData(gridData);
+		
+		deleteStateButton.setImage(deleteImage);
+		deleteStateButton.setEnabled(true);
+		deleteStateButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				deleteSelection();
+			}
+		});
+        		
+		this.viewer = new TreeViewer(control, SWT.VERTICAL | SWT.MULTI);
+	    gridData = new GridData();
+	    gridData.grabExcessHorizontalSpace = true;
+	    gridData.grabExcessVerticalSpace = true;
+	    gridData.horizontalAlignment = GridData.FILL;
+	    gridData.verticalAlignment = GridData.FILL;
+	    viewer.getTree().setLayoutData(gridData);
+	    
+	    //###############################################
+	    
 		this.viewer.setContentProvider(new DataTreeContentProvider());
 		this.viewer.setLabelProvider(new DataTreeLabelProvider());
 
@@ -622,6 +708,129 @@ public abstract class AbstractDataManagerView
 	
 		updatingTreeItem = false;
 	}
+	
+	/*
+	 * Listeners for icon click on Datamanager panel.
+	 */
+	private void saveSelection() {
+		if (AbstractDataManagerView.this.saveFactory != null) {
+			Data data[] = AbstractDataManagerView.this.manager.getSelectedData();
+			Algorithm algorithm = AbstractDataManagerView.this.saveFactory.createAlgorithm(
+				data, new Hashtable<String, Object>(), Activator.getCIShellContext());
+
+			try {
+				algorithm.execute();
+			} catch (AlgorithmExecutionException e)  {
+				if (AbstractDataManagerView.this.logger != null) {
+					AbstractDataManagerView.this.logger.log(
+						LogService.LOG_ERROR, e.getMessage(), e);
+					e.printStackTrace();
+				} else {
+					AbstractDataManagerView.this.logger = Activator.getLogService();
+
+					if (AbstractDataManagerView.this.logger != null) {
+						AbstractDataManagerView.this.logger.log(
+							LogService.LOG_ERROR,
+							"org.cishell.framework.algorithm.AlgorithmExecutionException",
+							e);
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	private void viewSelection() {
+		IMenuManager topLevelMenu = CIShellApplication.getMenuManager();
+		IMenuManager fileMenu = topLevelMenu.findMenuUsingPath("File");
+		BundleContext bundleContext = Activator.getBundleContext();
+		
+		try {
+			ServiceReference[] serviceReference = bundleContext.getAllServiceReferences(
+				AlgorithmFactory.class.getName(), 
+				"(service.pid=org.cishell.reference.gui.persistence.viewwith.FileViewWith)");
+			
+			if ((serviceReference != null) && (serviceReference.length > 0)) {
+				ActionContributionItem action =
+					(ActionContributionItem) fileMenu.find(getItemID(serviceReference[0]));
+				action.getAction().run();
+			}
+		} catch (InvalidSyntaxException e) {
+			e.printStackTrace();
+		}
+	}	
+	
+	private void editSelection() {
+		// Clean up any previous editor control
+		Control oldEditor = this.editor.getEditor();
+
+		if (oldEditor != null) {
+			oldEditor.dispose();
+		}
+
+		// Identify the selected row, only allow input if there is a single
+		// selected row
+		TreeItem[] selection = this.tree.getSelection();
+
+		if (selection.length != 1) {
+			return;
+		}
+
+		final TreeItem item = selection[0];
+
+		if (item == null) {
+			return;
+		}
+
+		// The control that will be the editor must be a child of the Table
+		this.newEditor = new Text(this.tree, SWT.NONE);
+		this.newEditor.setText(item.getText());
+		this.newEditor.addFocusListener(new FocusAdapter() {
+			public void focusLost(FocusEvent e) {
+				if (!updatingTreeItem) {
+					//updateText(newEditor.getText(), item);
+					AbstractDataManagerView.this.manager.setLabel(
+						((DataGUIItem) item.getData()).getModel(),
+						AbstractDataManagerView.this.newEditor.getText());
+					// FELIX.  This is not > stupidness.
+				}
+			}
+		});
+
+		// ENTER ESC
+		this.newEditor.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if ((e.character == SWT.CR) && !AbstractDataManagerView.this.updatingTreeItem) {
+					updateText(AbstractDataManagerView.this.newEditor.getText(), item);
+				} else if (e.keyCode == SWT.ESC) {
+					AbstractDataManagerView.this.newEditor.dispose();
+				}
+			}
+		});
+		this.newEditor.selectAll();
+		this.newEditor.setFocus();
+		this.editor.setEditor(this.newEditor, item);
+	}	
+	
+	private void deleteSelection() {
+		TreeItem[] selections = AbstractDataManagerView.this.tree.getSelection();
+
+		for (TreeItem selection : selections) {
+			DataGUIItem item = (DataGUIItem) selection.getData();
+			DataGUIItem parent = item.getParent();
+
+			if (parent != null) {
+				parent.removeChild(item);
+			}
+
+			AbstractDataManagerView.this.dataToDataGUIItem.remove(item.getModel());
+			AbstractDataManagerView.this.manager.removeData(item.getModel());
+		}
+
+		AbstractDataManagerView.this.manager.setSelectedData(new Data[0]);
+		AbstractDataManagerView.this.viewer.refresh();
+	}
+	
 
 	/*
 	 * Listens for right-clicks on TreeItems and opens the context menu when

@@ -130,9 +130,11 @@ public class WorkflowMaker {
 			public void run() {
 				XStream writer = new XStream(new StaxDriver());
 				writer.autodetectAnnotations(true);
+
 				
 				String xml1 = writer.toXML(new WorkflowSaver(wf1));
-								
+				
+				
 				File currentDirectory = null;
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);

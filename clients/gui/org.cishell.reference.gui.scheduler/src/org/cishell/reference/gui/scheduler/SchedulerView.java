@@ -65,8 +65,8 @@ public class SchedulerView extends ViewPart implements SchedulerListener {
     private static SchedulerView schedulerView;
     public static final String ID_VIEW = "org.cishell.reference.gui.scheduler.SchedulerView";
     
-    private static Image upImage 		= Activator.createImage("up.gif");
-    private static Image downImage 		= Activator.createImage("down.gif");
+    private static Image upImage 		= Activator.createImage("upArrow.png");
+    private static Image downImage 		= Activator.createImage("downArrow.png");
     private static Image playImage 		= Activator.createImage("play.png");
     private static Image pauseImage 	= Activator.createImage("pause.png");
     

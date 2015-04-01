@@ -103,6 +103,8 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 	private boolean updatingTreeItem;
 	private WorkflowTreeItem currentParentItem;
 	private String brandPluginID;
+/*	private Button removeButton;
+	private Button addButton;*/
 	
 	private Button playStateButton;
 	private Button stopStateButton;
@@ -112,7 +114,7 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 	private Button combineStateButton;
 	private Button recordStateButton;
 	private Button pauseStateButton;
-
+	//private static Image playImage = Activator.createImage("play.png");
 	private static Image playImage;
 	private static Image stopImage;
 	private static Image pauseImage;
@@ -121,6 +123,8 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 	private static Image editImage;
 	private static Image combineImage;
 	private static Image recordImage;
+	private TableViewer viewerTable;
+	private Button removeButton;
 	
 	private Stack<WorkflowGUI> undoStack;
 	private Stack<WorkflowGUI> redoStack;
@@ -174,23 +178,40 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
         GridLayout layout1 = new GridLayout();
         layout1.numColumns = 8;
         control1.setLayout(layout1 );
-        GridData gridData = new GridData();
-        gridData.verticalSpan = 1;
+/*        RowLayout layout = new RowLayout();
+        layout.wrap = true;
+        layout.pack = false;
+        layout.justify = true;
+        layout.type = SWT.HORIZONTAL;
+        layout.marginLeft = 5;
+        layout.marginTop = 5;
+        layout.marginRight = 5;
+        layout.marginBottom = 5;
+        layout.spacing = 0;
+        control.setLayout(layout);*/
         
-		playStateButton = new Button(control1, SWT.PUSH);		
-		playStateButton.setLayoutData(gridData);		
+		playStateButton = new Button(control1, SWT.PUSH);
+		
+		GridData gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
+		gridData.verticalSpan = 1;
+		playStateButton.setLayoutData(gridData);
+		
 		playStateButton.setImage(playImage);
 		playStateButton.setEnabled(true);
 		playStateButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				runSelection();
 			}
-		});
-				
-		stopStateButton = new Button(control1, SWT.PUSH);		
+		});		
+		
+		stopStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalSpan = 1;
-		stopStateButton.setLayoutData(gridData);		
+		stopStateButton.setLayoutData(gridData);
+		
 		stopStateButton.setImage(stopImage);
 		stopStateButton.setEnabled(true);
 		stopStateButton.addSelectionListener(new SelectionAdapter() {
@@ -199,10 +220,13 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			}
 		});
 		
-		deleteStateButton = new Button(control1, SWT.PUSH);		
+		deleteStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalSpan = 1;
-		deleteStateButton.setLayoutData(gridData);		
+		deleteStateButton.setLayoutData(gridData);
+		
 		deleteStateButton.setImage(deleteImage);	
 		deleteStateButton.setEnabled(true);
 		deleteStateButton.addSelectionListener(new SelectionAdapter() {
@@ -211,10 +235,13 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
                 }
             });
 			
-		saveStateButton = new Button(control1, SWT.PUSH);		
+		saveStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalSpan = 1;
-		saveStateButton.setLayoutData(gridData);		
+		saveStateButton.setLayoutData(gridData);
+		
 		saveStateButton.setImage(saveImage);
 		saveStateButton.setEnabled(true);
 		saveStateButton.addSelectionListener(new SelectionAdapter() {
@@ -223,10 +250,13 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			}
 		});
 		
-		editStateButton = new Button(control1, SWT.PUSH);		
+		editStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalSpan = 1;
-		editStateButton.setLayoutData(gridData);		
+		editStateButton.setLayoutData(gridData);
+		
 		editStateButton.setImage(editImage);
 		editStateButton.setEnabled(true);
 		editStateButton.addSelectionListener(new SelectionAdapter() {
@@ -235,10 +265,13 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			}
 		});
 		
-		combineStateButton = new Button(control1, SWT.PUSH);		
+		combineStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalSpan = 1;
-		combineStateButton.setLayoutData(gridData);		
+		combineStateButton.setLayoutData(gridData);
+		
 		combineStateButton.setImage(combineImage);
 		combineStateButton.setEnabled(true);
 		combineStateButton.addSelectionListener(new SelectionAdapter() {
@@ -247,10 +280,12 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			}
 		});
 		
-		recordStateButton = new Button(control1, SWT.PUSH);		
+		recordStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
 		gridData.verticalSpan = 1;
-		recordStateButton.setLayoutData(gridData);		
+		recordStateButton.setLayoutData(gridData);
+		
 		recordStateButton.setImage(recordImage);
 		recordStateButton.setEnabled(true);
 		recordStateButton.addSelectionListener(new SelectionAdapter() {
@@ -259,10 +294,13 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			}
 		});
 		
-		pauseStateButton = new Button(control1, SWT.PUSH);		
+		pauseStateButton = new Button(control1, SWT.PUSH);
+		
 		gridData = new GridData();
+		//gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalSpan = 1;
-		pauseStateButton.setLayoutData(gridData);		
+		pauseStateButton.setLayoutData(gridData);
+		
 		pauseStateButton.setImage(pauseImage);
 		pauseStateButton.setEnabled(true);
 		pauseStateButton.addSelectionListener(new SelectionAdapter() {
@@ -270,7 +308,11 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 				pauseSelection();
 			}
 		});
-
+		
+       // Composite control1 = new Composite(parent, SWT.NONE);
+      // GridLayout layout1 = new GridLayout();
+       // layout1.numColumns = 1;
+       // control.setLayout(layout1);
 		layout.numColumns = 1;
 		this.viewer = new TreeViewer(control, SWT.VERTICAL | SWT.MULTI);
 	    gridData = new GridData();
@@ -393,6 +435,8 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			WorkflowView.this.mode = WorkflowMode.STOPPED;
 			stopStateButton.setEnabled(false);
 			playStateButton.setEnabled(true);
+			//((WorkflowGUI) itm).getWorkflow().run();
+			//WorkflowView.this.mode = WorkflowMode.STOPPED;
 		}
 	}	
 	
@@ -409,6 +453,8 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			WorkflowView.this.mode = WorkflowMode.PAUSED;
 			playStateButton.setEnabled(false);
 			pauseStateButton.setEnabled(true);
+			//((WorkflowGUI) itm).getWorkflow().run();
+			//WorkflowView.this.mode = WorkflowMode.STOPPED;
 		}
 	}
 	
@@ -425,6 +471,8 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 			WorkflowView.this.mode = WorkflowMode.RUNNING;
 			pauseStateButton.setEnabled(false);
 			recordStateButton.setEnabled(true);
+			//((WorkflowGUI) itm).getWorkflow().run();
+			//WorkflowView.this.mode = WorkflowMode.STOPPED;
 		}
 	}
 	
@@ -1040,6 +1088,8 @@ public class WorkflowView extends ViewPart implements SchedulerListener {
 				WorkflowView.this.mode = WorkflowMode.RUNNING;
 				pauseStateButton.setEnabled(false);
 				playStateButton.setEnabled(true);
+				//((WorkflowGUI) itm).getWorkflow().run();
+				//WorkflowView.this.mode = WorkflowMode.STOPPED;
 			}
 		}
 	}
